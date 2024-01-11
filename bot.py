@@ -109,4 +109,4 @@ async def server_players(ctx: SlashContext):
   else:
     await ctx.send(content=f":scroll: **Players Online (0):**",embeds=[Embed(color=255,author={"name": "There are no players online","icon_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Flogos-brands-in-colors%2F231%2Famong-us-player-red-512.png&f=1&nofb=1&ipt=275e7fa2525a2ce400f185b87039198033b5c5ecca156b2f83acd8c50d68863d&ipo=images"}),])
 
-bot.start("[BOT ID]")1
+bot.start("[BOT ID]")
