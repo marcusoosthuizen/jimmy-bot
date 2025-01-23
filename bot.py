@@ -2,15 +2,37 @@ from interactions import Client, Intents, listen
 from interactions import slash_command, SlashContext, Embed
 from os import popen as cmd
 from time import sleep
-
-#----------------------------------------#
-#           Required Packages            #
-#  - GNU Screen                          #
-#  - Java 17                             #
-#  - Standard GNU/Linux Packages         #
-#----------------------------------------#
+from mojang import API
 
 bot = Client(intents=Intents.DEFAULT)
+api = API()
+
+## Loads Config File ##
+data = None
+valid = False
+try:
+    with open("jimmy.toml", "rb") as f:
+        data = tomllib.load(f)
+    if data['jar-path'][-1] != "/":
+      data['jar-path'] += "/"
+    print(data['jar-path'])
+except:
+    with open("jimmy.toml", "w") as f:
+        f.write('# The discord bot\'s private token\nbot-token = ""\n\n# The path to the directory that contains the minecraft server jar  e.g. /home/mc-server/\njar-path = ""\n\n# The name of the minecraft server jar\njar-name = "server.jar"\n\n# The amount of ram in gb to allocate to the server\nram = 6')
+    print("Config file generated!\nPlease add your bot's token, the path to your server jar and the name of your server jar in jimmy.toml")
+
+if data != None:
+    if data['bot-token'] == "":
+        print("Invalid bot token in jimmy.toml")
+    elif data['jar-path'] == "":
+        print("Invalid jar path in jimmy.toml")
+    elif data['jar-name'] == "":
+        print("Invalid jar name in jimmy.toml")
+    elif type(data['ram']) != int:
+        print("Invalid ram amount in jimmy.toml") 
+    else:
+        valid = True
+
 
 @listen()
 async def on_ready():
@@ -51,7 +73,7 @@ async def server_start(ctx: SlashContext):
   if "minecraft" in cmd('screen -ls').read():
     await ctx.send(":face_with_monocle: **The server is already online**")
   else:
-    cmd("cd [MC Server Location];screen -dmS minecraft java -Xms10G -Xmx10G -jar [PaperMC Jar] --nogui")
+    cmd(f"cd {data['jar-path']};screen -dmS minecraft java -Xms6G -Xmx6G -jar {data['jar-name']} --nogui")
     await ctx.send(":alarm_clock: **Server starting...**")
 
 
@@ -60,7 +82,7 @@ async def server_stop(ctx: SlashContext):
   if "minecraft" in cmd('screen -ls').read():
     cmd('screen -S minecraft -X stuff "list\n"')
     sleep(0.25)
-    logs = cmd("tail -10 [MC Server Location]/logs/latest.log").read().split("\n")
+    logs = cmd(f"tail -10 {data['jar-path']}logs/latest.log").read().split("\n")
     for i in reversed(logs):
       if "[Server thread/INFO]: There are" in i:
         logs = i;break
@@ -88,7 +110,7 @@ async def server_players(ctx: SlashContext):
   if "minecraft" in cmd('screen -ls').read():
     cmd('screen -S minecraft -X stuff "list\n"')
     sleep(0.25)
-    logs = cmd("tail -10 [MC Server Location]/logs/latest.log").read().split("\n")
+    logs = cmd(f"tail -10 {data['jar-path']}/logs/latest.log").read().split("\n")
     for i in reversed(logs):
       if "[Server thread/INFO]: There are" in i:
         logs = i;break
@@ -109,4 +131,6 @@ async def server_players(ctx: SlashContext):
   else:
     await ctx.send(content=f":scroll: **Players Online (0):**",embeds=[Embed(color=255,author={"name": "There are no players online","icon_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Flogos-brands-in-colors%2F231%2Famong-us-player-red-512.png&f=1&nofb=1&ipt=275e7fa2525a2ce400f185b87039198033b5c5ecca156b2f83acd8c50d68863d&ipo=images"}),])
 
-bot.start("[BOT ID]")
+
+
+if valid: bot.start(data['bot-token'])
