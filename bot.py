@@ -3,6 +3,8 @@ from interactions import slash_command, SlashContext, Embed
 from os import popen as cmd
 from time import sleep
 from mojang import API
+import tomllib
+import io
 
 bot = Client(intents=Intents.DEFAULT)
 api = API()
