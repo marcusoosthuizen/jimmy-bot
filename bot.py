@@ -17,7 +17,6 @@ try:
         data = tomllib.load(f)
     if data['jar-path'][-1] != "/":
       data['jar-path'] += "/"
-    print(data['jar-path'])
 except:
     with open("jimmy.toml", "w") as f:
         f.write('# The discord bot\'s private token\nbot-token = ""\n\n# The path to the directory that contains the minecraft server jar  e.g. /home/mc-server/\njar-path = ""\n\n# The name of the minecraft server jar\njar-name = "server.jar"\n\n# The amount of ram in gb to allocate to the server\nram = 6')
