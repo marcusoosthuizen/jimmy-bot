@@ -75,7 +75,7 @@ async def server_start(ctx: SlashContext):
   if "minecraft" in cmd('screen -ls').read():
     await ctx.send(":face_with_monocle: **The server is already online**")
   else:
-    cmd(f"cd {data['jar-path']};screen -dmS minecraft java -Xms6G -Xmx6G -jar {data['jar-name']} --nogui")
+    cmd(f"cd {data['jar-path']};screen -dmS minecraft java -Xms{data['ram']}G -Xmx{data['ram']}G -jar {data['jar-name']} --nogui")
     await ctx.send(":alarm_clock: **Server starting...**")
 
 
