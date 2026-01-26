@@ -1,7 +1,7 @@
 # jimmy-bot
-A minimal discord bot that can turn on and off a minecraft server. It is also the official discord bot of Pigletmine!
+A minimal discord bot that can display info about and control a minecraft / hytale server. It is also the official discord bot of Pigletmine!
 
-Simply add your bot's token, the jar path and the jar name in the config file and run! The style of messages are designed to look similar to the DiscordSRV plugin and in fact this bot is able to be run together with DiscordSRV 
+When you first run the bot, a config file will be generated in .config/jimmy. Simply add your bot's token and the paths to your minecraft / hytale server in the config file and run! The style of messages are designed to look similar to the DiscordSRV plugin and in fact this bot is able to be run together with DiscordSRV 
 
 
 Requirements:
@@ -11,8 +11,7 @@ Requirements:
 
 
 Command List:
-- /server-start - Starts the mc server
-- /server-stop - Terminates the mc server
-- /server-status - Returns whether the server is online or offline
-- /server-players - Returns info about the players currently playing on the server
-- /server-help - Returns a list of commands the bot can perform
+- /help - Returns a list of every command Jimmy can perform
+- /status - Displays the active game server and the players online
+- /mc <start/stop> - Starts/Stops the Minecraft server
+- /hy <start/stop> - Starts/Stops the Hytale server
